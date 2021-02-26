@@ -1,0 +1,27 @@
+{
+  "name": "sound-api",
+  "version": "1.0.0",
+  "description": "sound api",
+  "main": "app.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "fastify start app.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sound",
+    "api"
+  ],
+  "author": "neolectron",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^3.12.0",
+    "fastify-autoload": "^3.5.2",
+    "fastify-cli": "^2.8.0",
+    "fastify-cors": "^5.2.0",
+    "fastify-multipart": "^4.0.0",
+    "fastify-plugin": "^3.0.0",
+    "file-type": "^16.2.0",
+    "http-errors": "^1.8.0"
+  }
+}
