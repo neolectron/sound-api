@@ -13,6 +13,10 @@ const soundRoute = async (fastify, options) => {
     return files.map((file) => basename(file, extname(file)));
   });
 
+  // AUTHENTICATED ROUTES
+  fastify.register(async (fastify, opts) => {
+    fastify.addHook('preHandler', fastify.authTwitch);
+
     fastify.post('/', async (req, reply) => {
       const { file, fields } = await req.file();
       const fileStream = await FileType.stream(file);
@@ -21,8 +25,12 @@ const soundRoute = async (fastify, options) => {
         fileStream.fileType?.ext !== 'flac' ||
         fileStream.fileType?.mime !== 'audio/x-flac'
       ) {
-      return UnsupportedMediaType();
+        throw UnsupportedMediaType();
       }
+
+      // maybe put file validation in a middleware
+      // if the user sends no file, the request SHOULD hang.
+      // manage this in data validation schemas
 
       const url = new URL(fields.youtubeInput.value);
       const name = url.searchParams.get('v');
@@ -39,12 +47,13 @@ const soundRoute = async (fastify, options) => {
       const dir = await readdir(DATA_FOLDER);
 
       if (!dir.includes(`${req.params.id}.flac`)) {
-      return NotFound();
+        throw NotFound();
       }
 
       reply.code(204);
       return rm(join(DATA_FOLDER, `${req.params.id}.flac`));
     });
+  });
 };
 
 export default soundRoute;
