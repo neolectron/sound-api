@@ -12,6 +12,7 @@ export default plugin(async (fastify, opts) => {
     })
       .then((res) => res.json())
       .catch((err) => {
+        // token might be invalid, and it will throw serviceUnavailable.
         throw ServiceUnavailable(err);
       });
 
