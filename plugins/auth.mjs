@@ -3,18 +3,21 @@ import fetch from 'node-fetch';
 import httpErr from 'http-errors';
 
 export default plugin(async (fastify, opts) => {
-  const { Forbidden, Unauthorized, ServiceUnavailable } = httpErr;
+  const { Forbidden, Unauthorized } = httpErr;
+
   const validateRequest = (access_token) =>
     fetch('https://id.twitch.tv/oauth2/validate', {
       headers: {
         Authorization: `OAuth ${access_token}`,
       },
     })
-      .then((res) => res.json())
-      .catch((err) => {
-        // token might be invalid, and it will throw serviceUnavailable.
-        throw ServiceUnavailable(err);
-      });
+      .then((res) => {
+        if (res.status >= 400 && res.status < 600) {
+          throw httpErr(res.status, res.statusText);
+        }
+        return res;
+      })
+      .then((res) => res.json());
 
   fastify.decorate('authTwitch', async (req) => {
     const { access_token } = req.headers;
