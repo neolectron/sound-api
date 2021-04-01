@@ -21,6 +21,7 @@
     "fastify-cors": "^5.2.0",
     "fastify-multipart": "^4.0.0",
     "fastify-plugin": "^3.0.0",
+    "fastify-static": "^4.0.1",
     "file-type": "^16.2.0",
     "http-errors": "^1.8.0",
     "node-fetch": "^2.6.1"
