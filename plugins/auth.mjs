@@ -20,7 +20,9 @@ export default plugin(async (fastify, opts) => {
       .then((res) => res.json());
 
   fastify.decorate('authTwitch', async (req) => {
-    const { access_token } = req.headers;
+    const { authorization } = req.headers;
+
+    const access_token = authorization.split(' ')[1];
 
     if (!access_token) {
       throw Unauthorized();
