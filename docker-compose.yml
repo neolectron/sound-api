@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  sound-api:
+    build: .
+    env_file: .env
+    ports:
+      - 4242:4242
+    volumes:
+      - ./datadog:/data
