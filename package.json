@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "fastify start app.mjs",
+    "dev": "NODE_ENV=development fastify start app.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
