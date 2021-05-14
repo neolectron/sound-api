@@ -11,7 +11,17 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
+
+      - name: creating env file
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_FASTIFY_ADDRESS: ${{ secrets.FASTIFY_ADDRESS }}
+          envkey_FASTIFY_PORT: ${{ secrets.FASTIFY_PORT }}
+          envkey_ADMIN_UID_LIST: ${{ secrets.ADMIN_UID_LIST }}
+          envkey_DATA_FOLDER: ${{ secrets.DATA_FOLDER }}
+
       - name: Build the container
         run: docker build .
+
       - name: Build the stack
         run: docker-compose up -d

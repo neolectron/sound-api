@@ -4,6 +4,6 @@ services:
     build: .
     env_file: .env
     ports:
-      - 4242:4242
+      - ${FASTIFY_PORT}:${FASTIFY_PORT}
     volumes:
-      - ./datadog:/data
+      - ../data:/app/data
