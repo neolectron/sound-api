@@ -1,6 +1,8 @@
 import { createWriteStream } from 'fs';
 import { readdir, rm } from 'fs/promises';
 import FileType from 'file-type';
+import pump from 'pump';
+import { promisify } from 'util';
 import { join, basename, extname } from 'path';
 
 const soundRoute = async (fastify, options) => {
@@ -37,7 +39,7 @@ const soundRoute = async (fastify, options) => {
       const destination = join(DATA_FOLDER, `${name}.flac`);
 
       const writeStream = createWriteStream(destination);
-      fileStream.pipe(writeStream);
+      await promisify(pump)(fileStream, writeStream);
 
       reply.code(201);
       return { destination };
